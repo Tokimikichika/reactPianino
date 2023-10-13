@@ -5,9 +5,9 @@
     padding: 20px;
 }
 
-.piano-key {
-    width: 40px;
-    height: 150px;
+.white-key {
+    width: 50px;
+    height: 200px;
     background-color: white;
     border: 1px solid #000;
     margin: 0 5px;
@@ -19,19 +19,19 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-.piano-key.pressed {
+.white-key.pressed {
     background-color: #ccc;
 }
 
-.piano-key.black {
+.black-key {
     background-color: black;
-    width: 25px;
-    height: 100px;
+    width: 30px;
+    height: 120px;
     position: relative;
     margin: 0;
     cursor: pointer;
 }
 
-.piano-key.black.pressed {
+.black-key.pressed {
     background-color: #444;
 }
