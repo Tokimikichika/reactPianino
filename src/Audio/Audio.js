@@ -5,7 +5,7 @@ class AudioPlayer {
         this.oscillators = {};
     }
 
-    playSound(frequency) {
+    playSound(frequency, duration) {
         if (!this.audioContext) return;
 
         const oscillator = this.audioContext.createOscillator();
@@ -14,7 +14,7 @@ class AudioPlayer {
 
         oscillator.connect(this.audioContext.destination);
         oscillator.start();
-        oscillator.stop(this.audioContext.currentTime + 0.2); // Длительность звука в секундах
+        oscillator.stop(this.audioContext.currentTime + duration); // Длительность звука в секундах
 
         this.oscillators[frequency] = oscillator;
     }

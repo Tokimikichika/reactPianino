@@ -17,9 +17,11 @@ const pianoKeys = [
     { note: 'B', keyCode: 74, frequency: 493.88, type: 'white' },
 ];
 
+const audioPlayer = new AudioPlayer();
+
 const Piano = () => {
     const [keysPressed, setKeysPressed] = useState({});
-    const audioPlayer = new AudioPlayer();
+    const [soundDuration, setSoundDuration] = useState(1);   
 
 
     const handleKeyDown = (note) => {
@@ -28,7 +30,7 @@ const Piano = () => {
             [note]: true,
         }));
 
-        audioPlayer.playSound(pianoKeys.find((key) => key.note === note).frequency);
+        audioPlayer.playSound(pianoKeys.find((key) => key.note === note).frequency, soundDuration);
     };
 
     const handleKeyUp = (note) => {
@@ -38,6 +40,9 @@ const Piano = () => {
         }));
 
         audioPlayer.stopSound(pianoKeys.find((key) => key.note === note).frequency);
+    };
+    const handleDurationChange = (e) => {
+        setSoundDuration(parseFloat(e.target.value));
     };
 
 
@@ -67,23 +72,34 @@ const Piano = () => {
             window.removeEventListener('keydown', handleKeyPress);
             window.removeEventListener('keyup', handleKeyRelease);
         };
-    }, [keysPressed, pianoKeys, handleKeyDown, handleKeyUp, audioPlayer]);
+    }, [keysPressed, pianoKeys, handleKeyDown, handleKeyUp, audioPlayer, soundDuration]);
 
     return (
         <div className="piano">
-            {pianoKeys.map((keyInfo) => (
-                <div
-                    key={keyInfo.note}
-                    className={`${
-                        keyInfo.type === 'white' ? 'white-key' : 'black-key'
-                    } ${keysPressed[keyInfo.note] ? 'pressed' : ''}`}
-                    onMouseDown={() => handleKeyDown(keyInfo.note)}
-                    onMouseUp={() => handleKeyUp(keyInfo.note)}
-                    tabIndex={0}
-                >
-                    {keyInfo.note}
-                </div>
-            ))}
+            <div>
+                <label htmlFor="duration">Длительность звука:</label>
+                <input
+                    type="number"
+                    id="duration"
+                    value={soundDuration}
+                    min="0.1"
+                    step="0.1"
+                    onChange={handleDurationChange}
+                />
+            </div>
+                {pianoKeys.map((keyInfo) => (
+                    <div
+                        key={keyInfo.note}
+                        className={`${
+                            keyInfo.type === 'white' ? 'white-key' : 'black-key'
+                        } ${keysPressed[keyInfo.note] ? 'pressed' : ''}`}
+                        onMouseDown={() => handleKeyDown(keyInfo.note)}
+                        onMouseUp={() => handleKeyUp(keyInfo.note)}
+                        tabIndex={0}
+                    >
+                        {keyInfo.note}
+                    </div>
+                ))}
         </div>
     );
 };
